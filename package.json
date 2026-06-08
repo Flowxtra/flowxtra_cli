@@ -95,9 +95,9 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc -b",
-    "postpack": "rm -f oclif.manifest.json",
-    "prepack": "npm run build && oclif manifest && oclif readme",
-    "version": "oclif readme && git add README.md"
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('tsconfig.tsbuildinfo',{force:true})\"",
+    "build": "npm run clean && tsc -b",
+    "prepack": "npm run build && oclif manifest",
+    "postpack": "node -e \"require('fs').rmSync('oclif.manifest.json',{force:true})\""
   }
 }
