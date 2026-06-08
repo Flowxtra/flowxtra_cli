@@ -88,6 +88,9 @@
       },
       "custom-fields": {
         "description": "Manage company custom fields"
+      },
+      "webhooks": {
+        "description": "Manage outgoing webhooks for recruitment events"
       }
     }
   },
