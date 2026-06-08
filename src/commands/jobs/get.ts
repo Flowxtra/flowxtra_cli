@@ -2,7 +2,7 @@ import { Args } from "@oclif/core";
 import { BaseCommand } from "../../base";
 import { ui } from "../../lib/ui";
 import { FlowxtraApi } from "../../lib/api";
-import { toItem, pick, str } from "../../lib/format";
+import { toItem, pick, str, nestedName } from "../../lib/format";
 
 export default class JobsGet extends BaseCommand<typeof JobsGet> {
   static description = "Show a single job posting";
@@ -35,8 +35,8 @@ export default class JobsGet extends BaseCommand<typeof JobsGet> {
         ["Status", str(pick(job, ["status", "status_by_admin", "state"])) || "—"],
         ["Workplace", str(pick(job, ["workplace", "work_place"])) || "—"],
         ["Employment", str(pick(job, ["employment_type", "employmentType"])) || "—"],
-        ["Location", str(pick(job, ["location", "city", "address"])) || "—"],
-        ["Applicants", str(pick(job, ["applicants_count", "candidates_count", "applications_count"])) || "0"],
+        ["Location", str(pick(job, ["custom_city", "custom_address"])) || nestedName(job, "company_office") || str(pick(job, ["remote_scope"])) || "—"],
+        ["Applicants", str(pick(job, ["candidate_job_count", "applicants_count", "candidates_count"])) || "0"],
       ],
     );
   }

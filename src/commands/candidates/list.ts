@@ -2,7 +2,7 @@ import { Flags } from "@oclif/core";
 import { BaseCommand } from "../../base";
 import { ui } from "../../lib/ui";
 import { FlowxtraApi } from "../../lib/api";
-import { toList, pick, str } from "../../lib/format";
+import { toList, pick, str, fullName, nestedName } from "../../lib/format";
 
 export default class CandidatesList extends BaseCommand<typeof CandidatesList> {
   static description = "List candidate applications across your jobs";
@@ -34,13 +34,13 @@ export default class CandidatesList extends BaseCommand<typeof CandidatesList> {
 
     ui.heading(`Candidates (${rows.length})`);
     ui.table(
-      ["ID", "Name", "Job", "Stage", "Status"],
+      ["ID", "Name", "Location", "Source", "Stage"],
       rows.slice(0, this.flags.limit).map((c) => [
         str(pick(c, ["id", "candidate_job_id"])),
-        str(pick(c, ["name", "full_name", "candidate_name", "first_name"])) || "—",
-        str(pick(c, ["job_title", "job", "title"])) || "—",
-        str(pick(c, ["stage", "stage_name", "current_stage"])) || "—",
-        str(pick(c, ["status", "state"])) || "—",
+        fullName(c) || "—",
+        str(pick(c, ["location"])) || "—",
+        str(pick(c, ["source_name", "source"])) || "—",
+        nestedName(c, "stage") || str(pick(c, ["stage_name", "stage_id"])) || "—",
       ]),
     );
   }

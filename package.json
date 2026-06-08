@@ -85,6 +85,9 @@
       },
       "social": {
         "description": "Manage connected social accounts and posts"
+      },
+      "custom-fields": {
+        "description": "Manage company custom fields"
       }
     }
   },

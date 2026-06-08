@@ -26,6 +26,24 @@ export function pick(obj: Row, keys: string[]): unknown {
   return undefined;
 }
 
+/** Best-effort display name: a single name field, or first + last. */
+export function fullName(obj: Row): string {
+  const single = pick(obj, ["name", "full_name", "candidate_name"]);
+  if (single) return str(single);
+  const first = str(pick(obj, ["first_name"]));
+  const last = str(pick(obj, ["last_name"]));
+  return `${first} ${last}`.trim();
+}
+
+/** Name of a nested related object (e.g. company_office.name). */
+export function nestedName(obj: Row, key: string): string {
+  const rel = obj[key];
+  if (rel && typeof rel === "object" && !Array.isArray(rel)) {
+    return str((rel as Row).name ?? (rel as Row).title ?? "");
+  }
+  return "";
+}
+
 export function str(v: unknown): string {
   if (v === undefined || v === null) return "";
   if (typeof v === "object") return JSON.stringify(v);

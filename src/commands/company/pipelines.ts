@@ -31,7 +31,7 @@ export default class CompanyPipelines extends BaseCommand<typeof CompanyPipeline
     ui.table(
       ["ID", "Name", "Stages"],
       rows.map((p) => {
-        const stages = pick(p, ["stages", "pipeline_stages", "stage_processes"]);
+        const stages = pick(p, ["company_pipline_stage", "stages", "pipeline_stages", "stage_processes"]);
         const count = Array.isArray(stages) ? stages.length : pick(p, ["stages_count"]);
         return [str(pick(p, ["id"])), str(pick(p, ["name", "title"])) || "—", str(count) || "—"];
       }),

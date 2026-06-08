@@ -29,9 +29,11 @@ export default class CompanyInfo extends BaseCommand<typeof CompanyInfo> {
       [
         ["Name", str(pick(c, ["name", "company_name"])) || "—"],
         ["Email", str(pick(c, ["email", "contact_email"])) || "—"],
+        ["Phone", str(pick(c, ["phone"])) || "—"],
         ["Website", str(pick(c, ["website", "url"])) || "—"],
-        ["Industry", str(pick(c, ["industry", "sector"])) || "—"],
-        ["Country", str(pick(c, ["country", "country_name"])) || "—"],
+        ["City", str(pick(c, ["city", "headquartered"])) || "—"],
+        ["Workspace", str(pick(c, ["subdomain", "career_domain"])) || "—"],
+        ["Employees", str(pick(c, ["number_employees"])) || "—"],
       ],
     );
   }

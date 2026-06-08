@@ -1,7 +1,7 @@
 import { BaseCommand } from "../../base";
 import { ui } from "../../lib/ui";
 import { FlowxtraApi } from "../../lib/api";
-import { toList, pick, str } from "../../lib/format";
+import { toList, pick, str, nestedName } from "../../lib/format";
 
 export default class CompanyOffices extends BaseCommand<typeof CompanyOffices> {
   static description = "List your company offices";
@@ -34,7 +34,7 @@ export default class CompanyOffices extends BaseCommand<typeof CompanyOffices> {
         str(pick(o, ["id"])),
         str(pick(o, ["name", "title"])) || "—",
         str(pick(o, ["city", "location"])) || "—",
-        str(pick(o, ["country", "country_name"])) || "—",
+        nestedName(o, "country") || str(pick(o, ["country_name"])) || "—",
       ]),
     );
   }

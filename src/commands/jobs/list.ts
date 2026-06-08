@@ -45,8 +45,8 @@ export default class JobsList extends BaseCommand<typeof JobsList> {
         str(pick(j, ["hash_id", "hashId", "id"])),
         str(pick(j, ["title", "name", "job_title"])) || "—",
         str(pick(j, ["status", "status_by_admin", "state"])) || "—",
-        str(pick(j, ["location", "city", "address"])) || "—",
-        str(pick(j, ["applicants_count", "candidates_count", "applications_count"])) || "0",
+        jobLocation(j),
+        str(pick(j, ["candidate_job_count", "applicants_count", "candidates_count", "applications_count"])) || "0",
       ]),
     );
   }
@@ -78,4 +78,19 @@ function str(v: unknown): string {
   if (v === undefined || v === null) return "";
   if (typeof v === "object") return JSON.stringify(v);
   return String(v);
+}
+
+/** Human-readable location: custom city, else office name, else workplace type. */
+export function jobLocation(j: Job): string {
+  const city = pick(j, ["custom_city"]);
+  if (city) {
+    const state = pick(j, ["custom_state"]);
+    return state ? `${str(city)}, ${str(state)}` : str(city);
+  }
+  const office = j["company_office"];
+  if (office && typeof office === "object") {
+    const name = (office as Record<string, unknown>).name;
+    if (name) return str(name);
+  }
+  return str(pick(j, ["workplace", "remote_scope"])) || "—";
 }

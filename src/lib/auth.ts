@@ -66,7 +66,10 @@ export async function login(onStatus?: (msg: string) => void): Promise<FlowxtraC
 
     srv.listen(0, "127.0.0.1", () => {
       const p = (srv.address() as AddressInfo).port;
-      resolve({ code: codePromise, redirectUri: `http://127.0.0.1:${p}/callback`, port: p, server: srv });
+      // Use "localhost" (not 127.0.0.1) in the redirect URI: the production WAF
+      // blocks the literal "http://127.0.0.1" in query params. localhost resolves
+      // to the same loopback server.
+      resolve({ code: codePromise, redirectUri: `http://localhost:${p}/callback`, port: p, server: srv });
     });
   });
 
