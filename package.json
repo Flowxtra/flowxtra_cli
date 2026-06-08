@@ -1,0 +1,97 @@
+{
+  "name": "@flowxtra/cli",
+  "version": "0.1.0",
+  "description": "Run your Flowxtra hiring from the terminal — post jobs, screen candidates and manage pipelines.",
+  "keywords": [
+    "flowxtra",
+    "recruiting",
+    "ats",
+    "hiring",
+    "cli",
+    "jobs",
+    "candidates"
+  ],
+  "homepage": "https://flowxtra.com/cli",
+  "bugs": "https://github.com/Flowxtra/flowxtra_cli/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Flowxtra/flowxtra_cli.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Flowxtra GmbH",
+    "email": "office@flowxtra.com",
+    "url": "https://flowxtra.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "commonjs",
+  "bin": {
+    "flowxtra": "./bin/run.js"
+  },
+  "files": [
+    "/bin",
+    "/dist",
+    "/oclif.manifest.json"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@oclif/core": "^3.27.0",
+    "@oclif/plugin-help": "^6.2.0",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.5",
+    "figlet": "^1.7.0",
+    "gradient-string": "^2.0.2",
+    "open": "^8.4.2",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.5.8",
+    "@types/gradient-string": "^1.1.5",
+    "@types/node": "^20.12.0",
+    "oclif": "^4.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "oclif": {
+    "bin": "flowxtra",
+    "dirname": "flowxtra",
+    "commands": "./dist/commands",
+    "topicSeparator": " ",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "hooks": {
+      "init": "./dist/hooks/init/welcome"
+    },
+    "topics": {
+      "auth": {
+        "description": "Sign in to Flowxtra and manage your session"
+      },
+      "jobs": {
+        "description": "Create, list and publish job postings"
+      },
+      "candidates": {
+        "description": "Review, move and shortlist candidates"
+      },
+      "company": {
+        "description": "Inspect company, offices, pipelines and team"
+      },
+      "meetings": {
+        "description": "Schedule and list interviews"
+      },
+      "social": {
+        "description": "Manage connected social accounts and posts"
+      }
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -b",
+    "postpack": "rm -f oclif.manifest.json",
+    "prepack": "npm run build && oclif manifest && oclif readme",
+    "version": "oclif readme && git add README.md"
+  }
+}
